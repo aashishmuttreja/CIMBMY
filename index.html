@@ -31,6 +31,25 @@
     
 </script>
  
+
+
+<style>
+    input[type=text], input[type=email] {
+        color: black;
+        background: #fff !important;
+    }
+</style>
+
+    
+
+    
+<link rel="stylesheet" href="CIMB%20Enrich%20Platinum%20Credit%20Card_files/clientlib-base.css" type="text/css">
+    
+<script src="CIMB%20Enrich%20Platinum%20Credit%20Card_files/979142625489512.js" async=""></script><script async="" src="CIMB%20Enrich%20Platinum%20Credit%20Card_files/fbevents.js"></script><script type="text/javascript" async="" src="CIMB%20Enrich%20Platinum%20Credit%20Card_files/conversion_async.js"></script><script type="text/javascript" src="CIMB%20Enrich%20Platinum%20Credit%20Card_files/jquery.js"></script>
+<script type="text/javascript" src="CIMB%20Enrich%20Platinum%20Credit%20Card_files/utils.js"></script>
+<script type="text/javascript" src="CIMB%20Enrich%20Platinum%20Credit%20Card_files/granite.js"></script>
+<script type="text/javascript" src="CIMB%20Enrich%20Platinum%20Credit%20Card_files/clientlib-header.js"></script>
+
 <script type="text/javascript">
     var getEmail = function() {
         if (localStorage.email) {
@@ -54,62 +73,34 @@
         });
     };
 
-    window.onload = function() {
-        // prefill email field
-        if (getEmail() !== 'ANONYMOUS')
-            $("#emailAddress").val(getEmail());
+    $(window).on('load', function() {
+      console.log('window load');
+       // prefill email field
+        setTimeout(function() {
+          console.log('settimeout');
+          if (getEmail() !== 'ANONYMOUS') {
+            $("#fe8773").val(getEmail());
+          }
+        }, 100);
 
-        $('#responsys-form').on('submit', function(e) {
+        $('#form1141').on('submit', function(e) {
+            console.log('submit');
             // set to localstorage
-            var _email = $("#emailAddress").val();
+            var _email = $("#fe8773").val();
             localStorage.email = _email;
 
             ORA.click({
-            "sendSessionInfo": true,
-            "data": {
-                "action": "submitForm",
-                "data_email": getEmail()
-            }
+              "sendSessionInfo": true,
+              "data": {
+                  "action": "submitForm",
+                  "data_email": getEmail()
+              }
             });
+
+            return handleFormSubmit(this);
         });
-
-        // receive msg frm iframe
-        // have to do it this way because cross domain cannot read content from iframe
-        window.onmessage = function(event) {
-            //Form Submit Success
-            console.log(event.data);
-            if (event.data == 'Form Submit Success') {
-                //disable submit button
-                $('button[type="submit"]').attr('disabled', 'true');
-                //show success
-                $('button[type="submit"]').text('Done');
-            }
-        };
-    };
+    });
 </script>
-
-<style>
-    input[type=text], input[type=email] {
-        color: black;
-        background: #fff !important;
-    }
-</style>
-
-    
-
-    
-<link rel="stylesheet" href="CIMB%20Enrich%20Platinum%20Credit%20Card_files/clientlib-base.css" type="text/css">
-
-
-
-
-    
-<script src="CIMB%20Enrich%20Platinum%20Credit%20Card_files/979142625489512.js" async=""></script><script async="" src="CIMB%20Enrich%20Platinum%20Credit%20Card_files/fbevents.js"></script><script type="text/javascript" async="" src="CIMB%20Enrich%20Platinum%20Credit%20Card_files/conversion_async.js"></script><script type="text/javascript" src="CIMB%20Enrich%20Platinum%20Credit%20Card_files/jquery.js"></script>
-<script type="text/javascript" src="CIMB%20Enrich%20Platinum%20Credit%20Card_files/utils.js"></script>
-<script type="text/javascript" src="CIMB%20Enrich%20Platinum%20Credit%20Card_files/granite.js"></script>
-<script type="text/javascript" src="CIMB%20Enrich%20Platinum%20Credit%20Card_files/clientlib-header.js"></script>
-
-
 
 
 <!-- Eloqua nameemail form style sheet -->
@@ -821,7 +812,7 @@
     font-family:inherit;
     font-size:inherit;
     line-height:inherit;
-    color:inherit;
+    color:black;
     font:inherit;
     margin:0}
   .elq-form .elq-item-select{
@@ -2613,12 +2604,12 @@
 					<br>
                     <p>Fill up the form to check your valid offer!</p>
 
-<div> <form method="post" name="UntitledForm-1590754661176" action="https://s531793742.t.eloqua.com/e/f2" onsubmit="return handleFormSubmit(this)" id="form1141" class="elq-form">
+<div> 
+<form method="post" name="UntitledForm-1590754661176" action="https://s531793742.t.eloqua.com/e/f2" id="form1141" class="elq-form" target="hidden-form">
   <input value="UntitledForm-1590754661176" type="hidden" name="elqFormName">
   <input value="531793742" type="hidden" name="elqSiteId">
   <input type="hidden" name="elqCustomerGUID" value="">
   <input type="hidden" name="elqCookieWrite" value="0">
-  
   <input name="elqCampaignId" type="hidden">
   <div class="layout container-fluid">
     <div class="row">
@@ -2727,6 +2718,8 @@
                 <div class="col-xs-12">
                   <div>
                     <input type="Submit" class="submit-button-style " value="Submit" id="fe8770">
+                    <input type="button" class="submit-button-style " value="Refresh" onclick="refresh()">
+                    <input type="button" class="submit-button-style " value="End Session" onclick="endSession()">
                   </div>
                 </div>
               </div>
@@ -2736,6 +2729,8 @@
       </div>
     </div>
   </div>
+  <!-- Used for Rsys form submission -->
+  <iframe style="display:none" name="hidden-form" id="hidden-form-iframe"></iframe>
 </form>
 <script type="text/javascript" src="https://img.en25.com/i/livevalidation_standalone.compressed.js">
 </script>
